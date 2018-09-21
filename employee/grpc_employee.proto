@@ -1,0 +1,39 @@
+syntax = "proto2";
+// there's also "proto3"
+
+package employeebook;
+
+option java_package = "com.cnb.employeebook";
+option java_outer_classname = "EmployeeBookProtos";
+
+service EmployeeService {
+  // Get all employees
+  rpc GetEmployees(Key) returns (stream Employee) {}
+}
+
+message Key {
+  required string key = 1;
+}
+
+message Employee {
+  required string name = 1;
+  required int32 id = 2;
+  optional string email = 3;
+  optional string position = 4;
+
+  enum PhoneType {
+      WORK = 0;
+      MOBILE = 1;
+  }
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = WORK];
+  }
+  
+  repeated PhoneNumber phones = 5;
+}
+  
+message EmployeeBook {
+  repeated Employee employees = 1;
+}
