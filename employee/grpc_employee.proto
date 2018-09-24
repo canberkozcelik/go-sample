@@ -9,10 +9,18 @@ option java_outer_classname = "EmployeeBookProtos";
 service EmployeeService {
   // Get all employees
   rpc GetEmployees(Key) returns (stream Employee) {}
+
+  // Create a new employee
+  rpc CreateEmployee(Employee) returns (CreateEmployeeResponse) {}
 }
 
 message Key {
   required string key = 1;
+}
+
+message CreateEmployeeResponse {
+  required int32 id = 1;
+  optional bool success = 2;
 }
 
 message Employee {

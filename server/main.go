@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 
@@ -31,6 +32,16 @@ func (s *server) GetEmployees(key *pb.Key, stream pb.EmployeeService_GetEmployee
 	return nil
 }
 
+// create new employee
+func (s *server) CreateEmployee(ctx context.Context, in *pb.Employee) (*pb.CreateEmployeeResponse, error) {
+	s.savedEmployees = append(s.savedEmployees, in)
+	return &pb.CreateEmployeeResponse{Id: in.Id, Success: newTrue()}, nil
+}
+
+func newTrue() *bool {
+	b := true
+	return &b
+}
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
